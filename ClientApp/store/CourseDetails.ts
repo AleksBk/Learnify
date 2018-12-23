@@ -6,11 +6,18 @@ export interface CourseDetailsDto {
     id: number;
     name: string;
     length: string;
+    description: string;
+    contents: ContentDto[];
+}
+
+export interface ContentDto {
+    id: number;
+    name: string;
 }
 
 export interface CourseDetailsState {
-    details?: CourseDetailsDto;
-    id?: number;
+    details: CourseDetailsDto;
+    id: number;
     isLoading: boolean;
 }
 
@@ -42,7 +49,17 @@ export const actionCreators = {
     }
 }
 
-const unloadedState: CourseDetailsState = { isLoading: false };
+const unloadedState: CourseDetailsState = { 
+    details: {
+        id: 0,
+        length: '',
+        description: '',
+        name: '',
+        contents: []
+    },
+    id: 0,
+    isLoading: false
+};
 
 export const reducer: Reducer<CourseDetailsState> = (state: CourseDetailsState, incomingAction: Action) => {
     const action = incomingAction as KnownAction;
