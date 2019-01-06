@@ -1,8 +1,7 @@
-using System;
+using Learnify.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Learnify.Models;
 
 namespace Learnify.Controllers
 {
@@ -13,7 +12,8 @@ namespace Learnify.Controllers
         public async Task<CourseDetailsDto> Get(int id)
         {
             await Task.Delay(500);
-            return new CourseDetailsDto() {
+            return new CourseDetailsDto()
+            {
                 Id = id,
                 Name = "Example Course",
                 Length = "2h 10m 45s",
@@ -38,5 +38,22 @@ namespace Learnify.Controllers
                 }
             };
         }
+
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<CourseItem>> GetAll()
+        {
+            await Task.Delay(500);
+            return CourseNames;
+        }
+
+        private static List<CourseItem> CourseNames = new List<CourseItem>
+        {
+            new CourseItem() { Name = "Math",Id = 1, Type = "Math", PictureUrl = "./pictures/math.jpg"},
+            new CourseItem() { Name = "Integrals" ,Id = 2, Type = "Math", PictureUrl = "./pictures/math.jpg"},
+            new CourseItem() { Name = "Derivatives", Id = 3, Type = "Math", PictureUrl = "./pictures/math.jpg"},
+            new CourseItem() { Name = "Derivatives", Id = 4, Type = "Math", PictureUrl = "./pictures/math.jpg"},
+            new CourseItem() { Name = "Thermodynamics", Id = 5, Type = "Phisics", PictureUrl = "./pictures/phisics.jpg"},
+            new CourseItem() { Name = "Basic English Words", Id = 6, Type = "English", PictureUrl = "./pictures/english.jpg" }
+        };
     }
 }

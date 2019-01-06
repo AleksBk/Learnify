@@ -25,10 +25,17 @@
 
   <ItemGroup>
     <None Remove="ClientApp\components\CoursesList.tsx" />
+    <None Remove="wwwroot\pictures\math.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\CoursesList.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\pictures\math.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

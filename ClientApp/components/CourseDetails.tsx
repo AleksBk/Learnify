@@ -26,7 +26,7 @@ class CourseDetails extends React.Component<CourseDetailsProps, {}> {
     }
 
     getDataView() {
-        return <div className="component"> 
+        return <div className="course-details-component"> 
             <div className="header"><h1>{this.props.details.name}</h1></div>
             <div className="header-info">
                 <p>Lenght: {this.props.details.length}</p>
