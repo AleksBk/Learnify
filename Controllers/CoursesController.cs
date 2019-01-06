@@ -40,20 +40,20 @@ namespace Learnify.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IEnumerable<CourseItem>> GetAll()
+        public async Task<IEnumerable<Course>> GetAll()
         {
             await Task.Delay(500);
             return CourseNames;
         }
 
-        private static List<CourseItem> CourseNames = new List<CourseItem>
+        private static List<Course> CourseNames = new List<Course>
         {
-            new CourseItem() { Name = "Math",Id = 1, Type = "Math", PictureUrl = "./pictures/math.jpg"},
-            new CourseItem() { Name = "Integrals" ,Id = 2, Type = "Math", PictureUrl = "./pictures/math.jpg"},
-            new CourseItem() { Name = "Derivatives", Id = 3, Type = "Math", PictureUrl = "./pictures/math.jpg"},
-            new CourseItem() { Name = "Derivatives", Id = 4, Type = "Math", PictureUrl = "./pictures/math.jpg"},
-            new CourseItem() { Name = "Thermodynamics", Id = 5, Type = "Phisics", PictureUrl = "./pictures/phisics.jpg"},
-            new CourseItem() { Name = "Basic English Words", Id = 6, Type = "English", PictureUrl = "./pictures/english.jpg" }
+            new Course() { Name = "Math",Id = 1, Type = "Math", PictureUrl = "./pictures/math.jpg"},
+            new Course() { Name = "Integrals" ,Id = 2, Type = "Math", PictureUrl = "./pictures/math.jpg"},
+            new Course() { Name = "Derivatives", Id = 3, Type = "Math", PictureUrl = "./pictures/math.jpg"},
+            new Course() { Name = "Derivatives", Id = 4, Type = "Math", PictureUrl = "./pictures/math.jpg"},
+            new Course() { Name = "Thermodynamics", Id = 5, Type = "Phisics", PictureUrl = "./pictures/phisics.jpg"},
+            new Course() { Name = "Basic English Words", Id = 6, Type = "English", PictureUrl = "./pictures/english.jpg" }
         };
     }
 }
