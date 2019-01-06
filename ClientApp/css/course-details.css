@@ -1,58 +1,58 @@
-.course-details-component {
+.component {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto auto; 
     grid-gap: 10px;
     margin-top: 20px;
     justify-items: stretch;
     align-items: stretch;
 }
 
-    .course-details-component .header {
-        grid-column: 1 / 3;
-        grid-row: 1;
-    }
-
-    .course-details-component .header-info {
-        grid-column: 3;
-        grid-row: 1;
-        text-align: right;
-        align-self: center;
-    }
-
-        .course-details-component .header-info p {
-            color: #999;
-            display: inline;
-        }
-
-    .course-details-component .video {
-        grid-column: 1;
-        grid-row: 2;
-    }
-
-        .course-details-component .video iframe {
-            width: 100%;
-            height: 100%;
-            max-width: 700px;
-            max-height: 500px
-        }
-
-    .course-details-component .description {
-        grid-column: 2 / 4;
-        grid-row: 2;
-    }
-
-    .course-details-component .episodes {
-        grid-column: 1 / 4;
-        grid-row: 3;
-    }
-
-.episodes .contents {
-    list-style-type: none;
-    padding-left: 0px;
+.component .header {
+    grid-column: 1 / 3;
+    grid-row: 1;
 }
 
-.episodes .contentItem {
+.component .header-info {
+    grid-column: 3;
+    grid-row: 1;
+    text-align: right;
+    align-self: center;
+}
+
+.component .header-info p {
+    color: #999;
+    display: inline;
+}
+
+.component .video {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.component .video iframe {
+    width: 100%;
+    height: 100%;
+    max-width: 700px;
+    max-height: 500px
+}
+
+.component .description {
+    grid-column: 2 / 4;
+    grid-row: 2;
+}
+
+.component .episodes {
+    grid-column: 1 / 4;
+    grid-row: 3;
+}
+
+.contents {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+.contentItem {
     width: 100%;
     border: 1px solid #ddd;
     background-color: #ddd;
@@ -60,24 +60,24 @@
     font-size: 16px;
 }
 
-.episodes .contentItem:not(:last-child) {
+.contentItem:not(:last-child) {
     margin-bottom: 10px;
 }
 
-.episodes .contentItem a {
+.contentItem a {
     color: #000;
 }
 
-.episodes .contentItem a:hover {
+.contentItem a:hover {
     text-decoration: none;
     color: #000;
 }
 
-.episodes .contentLink {
+.contentLink {
     width: 100%;
     margin: 10px;
 }
 
-.episodes .contentLink .glyphicon {
+.contentLink .glyphicon {
     padding-right: 10px;
 }
