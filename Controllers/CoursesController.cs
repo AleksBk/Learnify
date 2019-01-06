@@ -18,22 +18,23 @@ namespace Learnify.Controllers
                 Name = "Example Course",
                 Length = "2h 10m 45s",
                 Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                Contents = new List<ContentDto>() {
-                    new ContentDto() {
-                        Id = 1,
-                        Name = "Introduction"
+                Contents = new List<CourseItem>() {
+                    new VideoCourseItem() {
+                        Name = "Introduction",
+                        Description = "Test"
                     },
-                    new ContentDto() {
-                        Id = 2,
-                        Name = "Mathematical Base"
+                    new VideoCourseItem() {
+                        Name = "Mathematical Base",
+                        Description = "Test"
+
                     },
-                    new ContentDto() {
-                        Id = 3,
-                        Name = "Advanced lesson"
+                    new VideoCourseItem() {
+                        Name = "Advanced lesson",
+                        Description = "Test"
                     },
-                    new ContentDto() {
-                        Id = 4,
-                        Name = "Quadratic eqations, because why not?"
+                    new VideoCourseItem() {
+                        Name = "Quadratic eqations, because why not?",
+                        Description = "Test"
                     }
                 }
             };
