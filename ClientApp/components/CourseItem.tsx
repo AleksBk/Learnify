@@ -39,8 +39,7 @@ class CourseItem extends React.Component<CourseItemDetailsProps, {}> {
     }
 }
 
-
 export default connect(
-    (state: ApplicationState) => state.courseDetails, // Selects which state properties are merged into the component's props
+    (state: ApplicationState) => state.courseItemDetails, // Selects which state properties are merged into the component's props
     CourseItemDetailsStore.actionCreators                 // Selects which action creators are merged into the component's props
 )(CourseItem) as typeof CourseItem;

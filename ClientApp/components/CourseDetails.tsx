@@ -9,15 +9,24 @@ type CourseDetailsProps =
     & typeof CourseDetailsStore.actionCreators
     & RouteComponentProps<{ id: string }>;
 
-class CourseDetails extends React.Component<CourseDetailsProps, {}> {
+class CourseDetails extends React.Component<CourseDetailsProps, {courseId: number}> {
+    constructor(props: any) {
+        super(props)
+        this.state = {
+            courseId: 0
+        }
+    }
+
 
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
+        this.setState({courseId: id})
         this.props.requestCourseDetails(id);
     }
 
     componentWillReceiveProps(nextProps: CourseDetailsProps) {
         let id = parseInt(nextProps.match.params.id) || 0;
+        this.setState({courseId: id})        
         this.props.requestCourseDetails(id);
     }
 
@@ -47,7 +56,7 @@ class CourseDetails extends React.Component<CourseDetailsProps, {}> {
     getContentsList() {
         const episodesLis = this.props.details.contents.map(x => {
             return <li className="contentItem" key={x.id}>
-                <NavLink to={ '/course/' + x.id }>
+                <NavLink to={ '/courses/' + this.state.courseId + '/item/' + x.name }>
                     <div className="contentLink">
                         <span className='glyphicon glyphicon-play-circle'></span>
                         {x.name}

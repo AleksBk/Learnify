@@ -4,7 +4,7 @@ import { Layout } from './components/Layout';
 import Home from './components/Home';
 import FetchData from './components/FetchData';
 import Counter from './components/Counter';
-import CoursesList from './components/CoursesList';
+import CoursesList from './components/CoursesList';``
 import CourseDetails from './components/CourseDetails';
 import CourseItem from './components/CourseItem';
 
@@ -12,6 +12,6 @@ export const routes = <Layout>
     <Route exact path='/' component={ Home } />
     <Route path='/courseslist' component={ CoursesList } />
     <Route path='/fetchdata/:startDateIndex?' component={ FetchData } />
-    <Route path='/courses/:id?' component={ CourseDetails } />
     <Route path='/courses/:courseId?/item/:courseItem?' component={ CourseItem } />
+    <Route exact path='/courses/:id?' component={ CourseDetails } />
 </Layout>;

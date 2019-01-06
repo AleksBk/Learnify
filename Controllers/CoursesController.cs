@@ -19,19 +19,19 @@ namespace Learnify.Controllers
                 Length = "2h 10m 45s",
                 Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 Contents = new List<CourseItem>() {
-                    new VideoCourseItem() {
+                    new VideoCourseItem(id.ToString(), "https://www.youtube.com/watch?v=1vZ28SAgzKc&t=79s") {
                         Name = "Introduction",
                         Description = "Test"
                     },
-                    new VideoCourseItem() {
+                    new VideoCourseItem(id.ToString(), "https://www.youtube.com/watch?v=1vZ28SAgzKc&t=79s") {
                         Name = "Mathematical Base",
                         Description = "Test"
                     },
-                    new VideoCourseItem() {
+                    new VideoCourseItem(id.ToString(), "https://www.youtube.com/watch?v=1vZ28SAgzKc&t=79s") {
                         Name = "Advanced lesson",
                         Description = "Test"
                     },
-                    new VideoCourseItem() {
+                    new VideoCourseItem(id.ToString(), "https://www.youtube.com/watch?v=1vZ28SAgzKc&t=79s") {
                         Name = "Quadratic eqations, because why not?",
                         Description = "Test"
                     }
@@ -45,6 +45,16 @@ namespace Learnify.Controllers
             await Task.Delay(500);
             return CourseNames;
         }
+
+        [HttpGet("{courseId}/item/{courseItemName}")]
+        public CourseItem courseItemDetails(int courseId, string courseItemName) {
+            var CourseUuid = System.Guid.NewGuid().ToString();
+            return new VideoCourseItem(CourseUuid, "https://www.youtube.com/watch?v=1vZ28SAgzKc&t=79s") {
+                        Name = courseItemName,
+                        Description = "Test"
+                    };
+        }
+
 
         private static List<Course> CourseNames = new List<Course>
         {

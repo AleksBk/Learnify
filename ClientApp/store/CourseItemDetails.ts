@@ -28,8 +28,8 @@ type KnownAction = RequestCourseItemDetailsAction | ReceiveCourseItemDetailsActi
 
 export const actionCreators = {
     requestCourseItemDetails: (courseId: number, courseItemName: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        if(courseId !== getState().courseDetails.id && courseItemName !== getState().courseItemDetails.name) {
-            let fetchTask = fetch(`api/course/${courseId}/item/${courseItemName}`)
+        if(courseId !== getState().courseDetails.id && courseItemName !== getState().courseItemDetails.details.name) {
+            let fetchTask = fetch(`api/courses/${courseId}/item/${courseItemName}`)
                 .then(response => response.json() as Promise<CourseItemDetails>)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_COURSE_ITEM_DETAILS', details: data });
