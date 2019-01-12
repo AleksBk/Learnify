@@ -2,6 +2,13 @@ import * as React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 export class NavMenu extends React.Component<{}, {}> {
+    getLoginElement() {
+        return <div>
+            <Link className='navbar-login' to={ '/login' }>
+                <i className="glyphicon glyphicon-off"></i>Log In</Link>
+        </div>;
+    }
+
     public render() {
         return <div className='main-nav'>
                 <div className='navbar navbar-inverse'>
@@ -13,6 +20,7 @@ export class NavMenu extends React.Component<{}, {}> {
                         <span className='icon-bar'></span>
                     </button>
                     <Link className='navbar-brand' to={ '/' }>Learnify</Link>
+                    {this.getLoginElement()}
                 </div>
                 <div className='clearfix'></div>
                 <div className='navbar-collapse collapse'>
