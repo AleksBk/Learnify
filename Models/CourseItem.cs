@@ -16,6 +16,7 @@ namespace Learnify.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public ItemType Type { get; set; }
+        public string Length { get; set; }
 
         public CourseItem(String courseId, ItemType type)
         {

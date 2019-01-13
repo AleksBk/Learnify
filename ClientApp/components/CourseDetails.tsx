@@ -17,7 +17,6 @@ class CourseDetails extends React.Component<CourseDetailsProps, {courseId: numbe
         }
     }
 
-
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
         this.setState({courseId: id})
