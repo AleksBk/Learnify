@@ -13,7 +13,7 @@ namespace Learnify.Models
         }
         private String Id { get; }
         private String CourseId { get; }
-        public string Name { get; set; }
+        public String Name { get; set; }
         public string Description { get; set; }
         public ItemType Type { get; set; }
         public string Length { get; set; }

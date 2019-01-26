@@ -2,6 +2,7 @@ using Learnify.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace Learnify.Controllers
 {
@@ -51,14 +52,18 @@ namespace Learnify.Controllers
         }
 
         [HttpGet("{courseId}/item/{courseItemName}")]
-        public IActionResult courseItemDetails(int courseId, string courseItemName) {
-            // string courseId = courseId.ToString();
-            if (!courseItems.ContainsKey(courseId.ToString())) {
+        public IActionResult courseItemDetails(String courseId, String courseItemName) {
+
+            if (!courseItems.ContainsKey(courseId)) {
                 return new NotFoundObjectResult("Course item not found for particular courseId");
             }
 
-            // TestCourseItem courseItem = ;
-            return new OkObjectResult(courseItems[courseId.ToString()].Find( e => e.Name.Equals(courseItemName)) as TestCourseItem) ;
+            CourseItem courseItem = courseItems[courseId].Find( e => e.Name.Equals(courseItemName));
+            return new OkObjectResult(courseItem) ;
+        }
+
+        public List<bool> quizVerifier() {
+            return null;
         }
 
 
