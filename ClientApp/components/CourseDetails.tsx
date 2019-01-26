@@ -20,12 +20,14 @@ class CourseDetails extends React.Component<CourseDetailsProps, {courseId: numbe
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
         this.setState({courseId: id})
+        console.info("dupa")
         this.props.requestCourseDetails(id);
     }
 
     componentWillReceiveProps(nextProps: CourseDetailsProps) {
         let id = parseInt(nextProps.match.params.id) || 0;
         this.setState({courseId: id})        
+                
         this.props.requestCourseDetails(id);
     }
 
