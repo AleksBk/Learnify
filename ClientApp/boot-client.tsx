@@ -3,6 +3,7 @@ import './css/login.css';
 import './css/course-details.css';
 import './css/course-list.css';
 import './css/course-list-row.css';
+import './css/home.css';
 import 'bootstrap';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

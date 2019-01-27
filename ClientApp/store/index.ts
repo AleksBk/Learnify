@@ -2,7 +2,10 @@ import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
 import * as CourseDetails from './CourseDetails';
 import * as CoursesList from './CoursesList';
+<<<<<<< HEAD
 import * as Account from './Account';
+=======
+>>>>>>> master
 import * as CourseItemDetails from './CourseItemDetails';
 
 // The top-level state object

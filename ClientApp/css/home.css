@@ -1,0 +1,56 @@
+
+
+.home-component {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto 1fr 1fr;
+    grid-gap: 20px;
+    justify-items: stretch;
+    align-items: stretch;
+}
+
+.home-component .logo {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+    .home-component .film {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+.home-component .description {
+        grid-column: 2/4;
+        grid-row: 2;
+}
+
+.home-component .button {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+
+.buttonStart {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #0E293D;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+    .buttonStart:hover {
+        background-color: #69BFEC
+    }
+
+    .buttonStart:active {
+        background-color: #69BFEC;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
