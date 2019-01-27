@@ -2,7 +2,7 @@ import { fetch, addTask } from 'domain-task';
 import { Action, Reducer } from 'redux';
 import { AppThunkAction } from '.';
 import { Login } from 'ClientApp/components/Login';
-import history from '../history'
+import history from '../historyObj'
 
 interface LoginResult {
     login: string;
@@ -26,12 +26,16 @@ interface ReceiveLoginAction {
     login: string;
 }
 
-type KnownAction = RequestLoginAction | ReceiveLoginAction;
+interface LogoutAction {
+    type: 'LOGOUT'
+}
+
+type KnownAction = RequestLoginAction | ReceiveLoginAction | LogoutAction;
 
 export const actionCreators = {
     requestLogin: (login: string, password: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
         if(login !== getState().account.currentLogin) {
-            let fetchTask = fetch(`api/Account/Login`)
+            let fetchTask = fetch(`api/Account/Login?login=${login}`)
                 .then(response => response.json() as Promise<LoginResult>)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_LOGIN_DETAILS', token: data.token, login: data.login });
@@ -42,6 +46,9 @@ export const actionCreators = {
             dispatch({ type: 'REQUEST_LOGIN_DETAILS', login: login });
             return fetchTask;
         }
+    },
+    logout: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        dispatch({ type: 'LOGOUT' });
     }
 }
 
@@ -70,6 +77,8 @@ export const reducer: Reducer<AccountState> = (state: AccountState, incomingActi
                 };
             }
             break;
+        case 'LOGOUT': 
+            return unloadedState;
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above
             const exhaustiveCheck: never = action;

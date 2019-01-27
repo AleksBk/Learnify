@@ -22,6 +22,9 @@ export class Login extends React.Component<LoginProps, LoginState> {
             login: '',
             password: ''
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleLoginChange = this.handleLoginChange.bind(this);
+        this.handlePasswordChange = this.handlePasswordChange.bind(this);
     }
 
     handleSubmit() {
@@ -38,7 +41,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
 
     render() {
         return <div className="login-page">
-            <form className="login-form" onSubmit={this.handleSubmit}>
+            <form className="login-form">
                 <div>
                         <h2 className="text-center">Login</h2>
                 </div>
@@ -55,7 +58,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                     </label>
                 </div>
                 <div className="pull-right">
-                    <input className="btn btn-primary" type="submit" value="Save" />
+                    <input className="btn btn-primary" onClick={this.handleSubmit} readOnly value="Save" />
                 </div>
             </form>
         </div>;

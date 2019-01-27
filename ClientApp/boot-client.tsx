@@ -12,7 +12,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import configureStore from './configureStore';
 import { ApplicationState }  from './store';
 import * as RoutesModule from './routes';
-import history from './history';
+import history from './historyObj';
 
 let routes = RoutesModule.routes;
 
