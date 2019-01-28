@@ -36,13 +36,19 @@ type KnownAction = RequestCourseDetailsAction | ReceiveCourseDetailsAction;
 
 export const actionCreators = {
     requestCourseDetails: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        console.info(id)
+        console.info(getState().courseDetails)    
+
         if(id !== getState().courseDetails.id) {
-            let fetchTask = fetch(`api/Courses/Get?id=${ id }`)
+            console.info("Test")
+            let fetchTask = fetch(`api/courses/${id}`)
                 .then(response => response.json() as Promise<CourseDetailsDto>)
                 .then(data => {
+                    console.info("recieved")                    
                     dispatch({ type: 'RECEIVE_COURSE_DETAILS', details: data, id: data.id });
                 });
 
+            console.info("About to request")                                    
             addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
             dispatch({ type: 'REQUEST_COURSE_DETAILS', id: id });
         }
@@ -51,13 +57,13 @@ export const actionCreators = {
 
 const unloadedState: CourseDetailsState = { 
     details: {
-        id: 0,
+        id: 99999,
         length: '',
         description: '',
         name: '',
         contents: []
     },
-    id: 0,
+    id: 999999,
     isLoading: false
 };
 

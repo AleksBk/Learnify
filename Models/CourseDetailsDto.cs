@@ -7,7 +7,10 @@ namespace Learnify.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Length { get; set; }
-        public List<CourseItem> Contents { get; set; }
+        public string Length { get; set; } = "1:00";
+        public string PictureUrl { get; set; }
+        public string Type { get; set; }
+
+        public List<CourseItem> Contents { get; set; } = new List<CourseItem>();
     }
 }
