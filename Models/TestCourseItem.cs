@@ -9,6 +9,8 @@ namespace Learnify.Models
 
         public TestCourseItem(String courseId, List<QuizEntry> quizEntries) : base(courseId, CourseItem.ItemType.TEST) {
             this.quizEntries = quizEntries;
+            this.Length = "";
+            this.Description = "";
         }
     }
 }

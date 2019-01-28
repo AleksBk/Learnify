@@ -20,7 +20,7 @@ export class CoursesListRow extends React.Component<CoursesListRowProps, {}>
     getItems() {
         return this.props.elements.map(x=> {
             return <li className="item" key={x.id}>
-                <NavLink to={'/course/' + x.id}>
+                <NavLink to={'/courses/' + x.id}>
                     <img className="imgClass" src={x.pictureUrl}></img> {x.name}
                     </NavLink></li>;
         });

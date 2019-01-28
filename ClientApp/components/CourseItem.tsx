@@ -12,35 +12,55 @@ type CourseItemDetailsProps =
     CourseItemDetailsStore.CourseItemDetailsState
     & typeof CourseItemDetailsStore.actionCreators
     & RouteComponentProps<{ courseId: string; courseItemName: string }>
-    & TestVerifierStore.QuizVerifierState 
-    & typeof TestVerifierStore.actionCreators
+    // & TestVerifierStore.QuizVerifierState 
+    // & typeof TestVerifierStore.actionCreators
 
-class CourseItem extends React.Component<CourseItemDetailsProps, {answers: any}> {
+class CourseItem extends React.Component<CourseItemDetailsProps, {answers: any, testResults: any}> {
 
     constructor(props: any) {
         super(props)
 
         this.state = {
-            answers: {}
+            answers: {},
+            testResults: {}
         }
     }
 
     verifyAnswers = () => {
         let courseId = parseInt(this.props.match.params.courseId) || 0;
         let courseItemName = this.props.match.params.courseItemName || "";
-        // debugger;
-        // let fetchTask = postMessage(`api/quiz-verify`)
-        //     .then(response => response.json() as Promise<TestAnswersRS>)
-        //     .then(data => {
-           
-        // });
-        // this.props.verifyQuiz(courseId, courseItemName, this.state.answers);
-        console.log(this.props.testResults)
-       
+        
+        let body = JSON.stringify({
+            quizId: courseId,
+            courseItemName: courseItemName,
+            answers: this.state.answers
+        })
+        console.info("body:")        
+        console.info(body)
+
+        let headers = new Headers()
+        headers.append("Content-Type", "application/json")
+        let resp
+        let quizResults =  fetch("api/courses/quiz-verify", {
+            method: "POST",
+            headers: headers, 
+            body: body,
+        })
+        .then(response => {
+            resp = response.json()
+            this.setState({
+                ...this.setState,
+                testResults: resp
+            });
+
+            return resp;    
+        });
+
+        return quizResults;
     }
 
     getTestResults = () => {
-        return this.props.testResults
+        return this.state.testResults
     }
 
     componentWillMount() {
@@ -55,10 +75,12 @@ class CourseItem extends React.Component<CourseItemDetailsProps, {answers: any}>
         this.props.requestCourseItemDetails(courseId, courseItemName);
     }
 
-    updateAnswearState = (idx: number, answear: number) => {
+    updateAnswearState = (idx: number, answer: string) => {
+        const answers: any = {...this.state.answers}
+        answers[idx] = answer;
         this.setState({
             ...this.state,  
-            answers: {...this.state.answers, idx: answear}
+            answers: answers
         })
     }
 
@@ -86,37 +108,63 @@ class CourseItem extends React.Component<CourseItemDetailsProps, {answers: any}>
                 break;
             }
         }
-        
-        return (
-            <div className="component"> 
-                <div className="header-info">
-                    <p>Lenght: {this.props.details.length}</p>
-                </div>
-                {courseItemComponent}
 
-                <div className="description">
-                    {this.props.details.description}
+        let render
+        if (!(courseItemComponent instanceof TestItemContent)) {
+            render = (
+                <div className="component"> 
+                    <div className="header-info">
+                        {this.props.details.length != "" && <p>Lenght: {this.props.details.length}</p>}
+                    </div>
+                    {courseItemComponent}
+    
+                    <div className="description">
+                        {this.props.details.description}
+                    </div>
                 </div>
+            );    
+        } else {
+            render = {courseItemComponent}            
+        }
+
+        return (
+            <div>
+                {render}
             </div>
-        );
+        ) 
     }
 
     getLoadingView() {
         return <div>Loading...</div>;   
     }
 }
+const style = {
+    position: 'fixed',
+    top: '0px',left: '0px', bottom: '0px',
+    right: '0px',
+    width: '100%',
+    height: '100%',
+    border:'none',
+    margin:'0',
+    padding:0,
+    overflow:'hidden',
+    'z-index':'999999'
+};
 
 class VideoItemContent extends React.Component<{details: VideoCourseItem}, {}> {
     // constructor(props) {
     //     super(props)
     // }
 
+
     render() {
         return (
             <div>
+                <h1> {this.props.details.name} </h1>
                 <div className="video">
                     <iframe height="100%" width="100%" src={this.props.details.url}></iframe>
                 </div>
+                <p>{this.props.details.description}</p>
             </div>
         )
     }   
@@ -152,7 +200,7 @@ class TestItemContent extends React.Component<{details: TestCourseItem, updateAn
         if (checkedRadioInput == undefined) {
             throw new Error("checkedRadioInput == undefined")
         }
-        this.props.updateAnswears(checkedRadioInput.id)
+        this.props.updateAnswears(this.state.currentQuestionIdx, checkedRadioInput.value)
         // this.setState({answears: { }})
         let newIdx : number = this.state.currentQuestionIdx + 1
         this.setState({currentQuestionIdx: newIdx})        
@@ -168,7 +216,7 @@ class TestItemContent extends React.Component<{details: TestCourseItem, updateAn
             let possibleAnswers = quizEntry.question.possibleAnswers.map((a, idx) => {
                 return (
                     <div>
-                        <input type="radio" name="answears" value="a" id={idx.toString()}/><label> {a} </label><br/>
+                        <input type="radio" name="answears" value={a} id={idx.toString()}/><label> {a} </label><br/>
                     </div>
                 )
             })
@@ -182,17 +230,13 @@ class TestItemContent extends React.Component<{details: TestCourseItem, updateAn
     }
 
     render() {
-        console.log("Render, current ids: " + this.state.currentQuestionIdx)
-        console.log(this.questionComponents)
         let currentQuestionComponent
-
+        // debugger;
         if (this.state.currentQuestionIdx < this.questionComponents.length) {
             currentQuestionComponent = this.renderCurrentQuestionComponent()
         } else {
             currentQuestionComponent = this.endTestView()
         }
-        // currentQuestionComponent
-        console.info(this.state.result)
         
         return (
             <div>
@@ -201,56 +245,55 @@ class TestItemContent extends React.Component<{details: TestCourseItem, updateAn
         )
     }
 
-    renderCurrentQuestionComponent = () => {
-        return (
-            <div>
-                <h1>{this.props.details.name}</h1>
-                {this.questionComponents[this.state.currentQuestionIdx]}
-                <button onClick={this.onSubmit}>Submit answer</button>
-            </div>
-        )
-    }
-
     endTestView = () => {
+        let view
+        if (this.state.result.invalidOnes != undefined){
+            view = this.testResultView()
+        } else {
+            view  = (
+                <div>
+                    <h1>Test finished! Click verify to check Your answers</h1>
+                    <button onClick={this.verifyAnswers}>Verify answers</button>
+                </div>
+            )
+        }
         return (
             <div>
-                <h1>Test finished! Click verify to check Your answers</h1>
-                 <button onClick={this.verifyAnswers}>Verify answers</button>
-                 {/* && this.testResultView() */}
+                {view}
             </div>
         )
     }
 
     verifyAnswers = () => {
-        this.props.verifyAnswers()
-        let testResult = this.props.getTestResults()
-        
-        console.info(testResult)
+        const promise = this.props.verifyAnswers();
+        promise.then((x:any) => {
+            this.setState({...this.state, result: x})
+        });
+    }
 
-        let mock = {
-            correctOnes: [1,2,3],
-            invalidOnes: [
-                {
-                    4: {correctAnswear: "Poprawna odpowiedz"}
-                }
-            ]
-        }
-       
-        this.setState({...this.state, result: mock})//testResult
+
+    renderCurrentQuestionComponent = () => {
+        return <div>
+            <h1>{this.props.details.name}</h1>
+            {this.questionComponents[this.state.currentQuestionIdx]}
+            <button onClick={this.onSubmit}>Submit answer</button>
+        </div>        
     }
 
     testResultView = () => {
-        let invalidAnswears = this.state.result.invalidOnes.map((e: any, idx: any) => {
-            return (
-                <div>
-                    <h4>Answer to question nr {e.idx} was: {e.answear}</h4>
-                </div>
-            )
-        })
+        const invalidAnswears = [];
+        for (const key in this.state.result.invalidOnes) {
+            if (this.state.result.invalidOnes.hasOwnProperty(key)) {
+                const element = this.state.result.invalidOnes[key];
+                invalidAnswears.push(<div>
+                    <h4>Answer to question nr {key} was: {element}</h4>
+                </div>);
+            }
+        }
         
         return (
             <div>
-                <h2>Correct answears:</h2> {this.state.result.correntOnes}
+                <h2>Correct answers:</h2> {this.state.result.correctOnes}
                 <br/>
                 <h2>Faulty ones:</h2>
                 {invalidAnswears}
