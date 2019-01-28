@@ -5,15 +5,12 @@ import { ApplicationState }  from '../store';
 import * as CourseItemDetailsStore from '../store/CourseItemDetails';
 import { VideoCourseItem, TextCourseItem, TestCourseItem } from '../store/CourseItemDetails';
 import * as TestVerifierStore from '../store/TestVerifier';
-
-
+import history from '../historyObj';
 
 type CourseItemDetailsProps =
     CourseItemDetailsStore.CourseItemDetailsState
     & typeof CourseItemDetailsStore.actionCreators
     & RouteComponentProps<{ courseId: string; courseItemName: string }>
-    // & TestVerifierStore.QuizVerifierState 
-    // & typeof TestVerifierStore.actionCreators
 
 class CourseItem extends React.Component<CourseItemDetailsProps, {answers: any, testResults: any}> {
 
@@ -34,9 +31,7 @@ class CourseItem extends React.Component<CourseItemDetailsProps, {answers: any, 
             quizId: courseId,
             courseItemName: courseItemName,
             answers: this.state.answers
-        })
-        console.info("body:")        
-        console.info(body)
+        });
 
         let headers = new Headers()
         headers.append("Content-Type", "application/json")
@@ -84,6 +79,10 @@ class CourseItem extends React.Component<CourseItemDetailsProps, {answers: any, 
         })
     }
 
+    goBack() {
+        history.goBack();
+    }
+
     render() {
         return this.props.isLoading ? this.getLoadingView() : this.getDataView();
     }
@@ -114,7 +113,7 @@ class CourseItem extends React.Component<CourseItemDetailsProps, {answers: any, 
             render = (
                 <div className="component"> 
                     <div className="header-info">
-                        {this.props.details.length != "" && <p>Lenght: {this.props.details.length}</p>}
+                        <button onClick={this.goBack} className="buttonStart font-12"> Go back </button>
                     </div>
                     {courseItemComponent}
     
@@ -152,11 +151,6 @@ const style = {
 };
 
 class VideoItemContent extends React.Component<{details: VideoCourseItem}, {}> {
-    // constructor(props) {
-    //     super(props)
-    // }
-
-
     render() {
         return (
             <div>
@@ -164,7 +158,6 @@ class VideoItemContent extends React.Component<{details: VideoCourseItem}, {}> {
                 <div className="video">
                     <iframe height="100%" width="100%" src={this.props.details.url}></iframe>
                 </div>
-                <p>{this.props.details.description}</p>
             </div>
         )
     }   
@@ -194,25 +187,20 @@ class TestItemContent extends React.Component<{details: TestCourseItem, updateAn
             return e as HTMLInputElement
         })
         let checkedRadioInput = radiosMapped.find((e) => {
-            // let test: <HTMLInputElement> = e
             return e.checked
         })
         if (checkedRadioInput == undefined) {
             throw new Error("checkedRadioInput == undefined")
         }
         this.props.updateAnswears(this.state.currentQuestionIdx, checkedRadioInput.value)
-        // this.setState({answears: { }})
         let newIdx : number = this.state.currentQuestionIdx + 1
         this.setState({currentQuestionIdx: newIdx})        
-        console.log(checkedRadioInput)
     }
 
     questionComponents : Array<any> = [];
     
     createQuestionComponents = () => {
-        console.log(this.props.details.quizEntries)
         this.questionComponents = this.props.details.quizEntries.map((quizEntry, idx) => {
-            console.log(idx)            
             let possibleAnswers = quizEntry.question.possibleAnswers.map((a, idx) => {
                 return (
                     <div>
@@ -231,7 +219,6 @@ class TestItemContent extends React.Component<{details: TestCourseItem, updateAn
 
     render() {
         let currentQuestionComponent
-        // debugger;
         if (this.state.currentQuestionIdx < this.questionComponents.length) {
             currentQuestionComponent = this.renderCurrentQuestionComponent()
         } else {
@@ -304,16 +291,7 @@ class TestItemContent extends React.Component<{details: TestCourseItem, updateAn
 
 import { bindActionCreators } from 'redux';
 
-// function mapDispatchToProps(dispatch: any) {
-//     return {
-//       actions: {
-//         courseItemDetailsActions: bindActionCreators(CourseItemDetailsStore.actionCreators, dispatch),
-//         testVerifyActions: bindActionCreators(TestVerifierStore.actionCreators, dispatch)
-//       }
-//     };
-//   }
-
 export default connect(
-    (state: ApplicationState) => state.courseItemDetails, // Selects which state properties are merged into the component's props
-    CourseItemDetailsStore.actionCreators//mapDispatchToProps                    // Selects which action creators are merged into the component's props
+    (state: ApplicationState) => state.courseItemDetails,
+    CourseItemDetailsStore.actionCreators
 )(CourseItem) as typeof CourseItem;
